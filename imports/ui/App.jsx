@@ -13,16 +13,25 @@ class App extends Component {
 
   constructor(props) {
    super(props);
+   console.log("users: "+ this.props.users);
    this.state = {
-     items: [],
+     items: this.props.users,
+     search: false,
    };
 
  }
+
+ componentWillMount(){
+   this.setState({items: this.props.users});
+   console.log("users111: "+ this.props.users);
+ }
+
   filterList(event){
+    this.setState({search : true});
     event.preventDefault();
     const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
      console.log(text);
-     var updatedList = this.props.users;
+     let updatedList = this.props.users;
      updatedList = updatedList.filter(function(item){
        return item.expertArea.toLowerCase().search(
          text.toLowerCase()) !== -1;
@@ -34,11 +43,30 @@ class App extends Component {
 
  renderUsers() {
   //  console.log("users:" + this.props.items);
-   let filteredUsers = this.state.items;
+  let filteredUsers;
+  if(!this.state.search){
+    filteredUsers = this.props.users;
+  }else{
+    filteredUsers = this.state.items;
+ }
+
+   if(filteredUsers.length === 0 && this.state.search){
+     return (<li className="user">
+
+       <span className="text">
+         <strong>No results</strong>
+       </span>
+     </li>
+    );
+   }
 
    return filteredUsers.map((user) => (
      <User key={user._id} user={user} />
    ));
+ }
+
+ handleSubmit(){
+   
  }
 
 
@@ -50,7 +78,7 @@ class App extends Component {
      </header>
 
        <AccountsUIWrapper />
-         <form className="search" onSubmit={this.filterList.bind(this)} >
+         <form className="search" onChange={this.filterList.bind(this)} onSubmit={this.handleSubmit.bind(this)} >
            <input
              type="text"
              ref="textInput"
@@ -70,11 +98,12 @@ class App extends Component {
 
  App.propTypes = {
    currentUser: PropTypes.object,
+   users: PropTypes.array,
  };
 
  export default createContainer(() => {
    return {
      currentUser: Meteor.user(),
-     users: Experts.find().fetch(),
+     users: Experts.find({}).fetch(),
    };
  }, App);
