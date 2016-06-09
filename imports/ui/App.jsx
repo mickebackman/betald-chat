@@ -24,8 +24,13 @@ class App extends Component {
    ));
  }
 
- handleSubmit(){
-   
+ handleSubmit(event){
+   event.preventDefault();
+
+   // Find the text field via the React ref
+   const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+
+
  }
 
  render() {
@@ -42,7 +47,7 @@ class App extends Component {
              ref="textInput"
              placeholder="Sök"
            />
-         </form> : ''
+         </form>
 
       <ul>
         {this.renderUsers()}
