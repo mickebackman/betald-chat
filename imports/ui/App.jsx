@@ -6,32 +6,41 @@ import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 
 import { Experts } from '../api/users.js';
 
+import User from './User.jsx';
+
 // App component - represents the whole app
 class App extends Component {
 
   constructor(props) {
    super(props);
+   this.state = {
+     items: [],
+   };
 
  }
+  filterList(event){
+    event.preventDefault();
+    const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+     console.log(text);
+     var updatedList = this.props.users;
+     updatedList = updatedList.filter(function(item){
+       return item.expertArea.toLowerCase().search(
+         text.toLowerCase()) !== -1;
+     });
+     console.log("Ifilter "+updatedList);
+     this.setState({items: updatedList});
+   }
+
 
  renderUsers() {
-   let filteredUsers = this.props.users;
-//   if (this.state.hideCompleted) {
-//     filteredTasks = filteredTasks.filter(task => !task.checked);
-//   }
+  //  console.log("users:" + this.props.items);
+   let filteredUsers = this.state.items;
+
    return filteredUsers.map((user) => (
-     <Task key={user._id} user={user} />
+     <User key={user._id} user={user} />
    ));
  }
 
- handleSubmit(event){
-   event.preventDefault();
-
-   // Find the text field via the React ref
-   const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
-
-
- }
 
  render() {
    return(
@@ -41,7 +50,7 @@ class App extends Component {
      </header>
 
        <AccountsUIWrapper />
-         <form className="search" onSubmit={this.handleSubmit.bind(this)} >
+         <form className="search" onSubmit={this.filterList.bind(this)} >
            <input
              type="text"
              ref="textInput"
@@ -66,6 +75,6 @@ class App extends Component {
  export default createContainer(() => {
    return {
      currentUser: Meteor.user(),
-     users: Experts.find({}).fetch(),
+     users: Experts.find().fetch(),
    };
  }, App);

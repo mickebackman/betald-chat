@@ -3,7 +3,3 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
 export const Experts = new Mongo.Collection('experts');
-
-Meteor.methods({
-
-  });

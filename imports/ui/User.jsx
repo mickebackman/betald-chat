@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Tasks } from '../api/tasks.js';
+import { Experts } from '../api/users.js';
 
 
 // Task component - represents a single todo item
@@ -13,7 +13,7 @@ export default class User extends Component {
 //    const taskClassName = this.props.task.checked ? 'checked' : '';
 
     return (
-      <li className={user}>
+      <li className="user">
 
         <span className="text">
           <strong>{this.props.user.username}</strong>
