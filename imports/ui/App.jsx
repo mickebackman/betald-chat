@@ -7,6 +7,7 @@ import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 import { Experts } from '../api/users.js';
 
 import User from './User.jsx';
+import Tag from './Tag.jsx'
 
 // App component - represents the whole app
 class App extends Component {
@@ -16,6 +17,7 @@ class App extends Component {
    console.log("users: "+ this.props.users);
    this.state = {
      items: this.props.users,
+     tags: [],
      search: false,
    };
 
@@ -27,6 +29,7 @@ class App extends Component {
  }
 
   filterList(event){
+    console.log("I filterlist");
     this.setState({search : true});
     event.preventDefault();
     const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
@@ -38,6 +41,13 @@ class App extends Component {
      });
      console.log("Ifilter "+updatedList);
      this.setState({items: updatedList});
+   }
+
+   renderTags(){
+     return this.state.tags.map((tag) => (
+       <Tag key={tag._id} tag={tag} />
+     ));
+
    }
 
 
@@ -65,8 +75,22 @@ class App extends Component {
    ));
  }
 
- handleSubmit(){
-   
+ handleSubmit(event){
+   this.setState({search: true});
+   event.preventDefault();
+   // Find the text field via the React ref
+   const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+   ReactDOM.findDOMNode(this.refs.textInput).value = '';
+   const updatedTags = this.state.tags.push(text);
+   console.log("hallå"+updateTags);
+   this.setState({tags : updateTags})
+
+ }
+
+ removeTag(event){
+   const text = ReactDOM.findDOMNode(this.refs.textInput).value;
+   const index = this.state.tags.indexOf
+   const updatedTags = this.state.tags.
  }
 
 
@@ -85,6 +109,10 @@ class App extends Component {
              placeholder="Sök"
            />
          </form>
+
+         <ul className="tagList">
+           {this.renderTags()}
+         </ul>
 
       <ul>
         {this.renderUsers()}

@@ -69,6 +69,17 @@ ul {
   padding: 0;
   background: white;
 }
+.tagList li{
+    display: inline;
+  background-color: grey;
+  padding: 10px;
+
+}
+
+.tagList{
+  padding: 10px;
+
+}
 
 .delete {
   float: right;
