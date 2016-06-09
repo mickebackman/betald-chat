@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 
+import { Experts } from '../api/users.js';
 
 // App component - represents the whole app
 class App extends Component {
@@ -23,6 +24,10 @@ class App extends Component {
    ));
  }
 
+ handleSubmit(){
+   
+ }
+
  render() {
    return(
    <div className="container">
@@ -30,9 +35,15 @@ class App extends Component {
        <h1>Vad behöver du hjälp med?</h1>
      </header>
 
+       <AccountsUIWrapper />
+         <form className="search" onSubmit={this.handleSubmit.bind(this)} >
+           <input
+             type="text"
+             ref="textInput"
+             placeholder="Sök"
+           />
+         </form> : ''
 
-
-    <AccountsUIWrapper />
       <ul>
         {this.renderUsers()}
       </ul>
@@ -50,6 +61,6 @@ class App extends Component {
  export default createContainer(() => {
    return {
      currentUser: Meteor.user(),
-     users: Meteor.users.find({}, { sort: { createdAt: -1 } }).fetch(),
+     users: Experts.find({}).fetch(),
    };
  }, App);
