@@ -17,7 +17,7 @@ export default class Tag extends Component {
     return (
       <li>
         {this.props.tag.tag}
-        <button classname="delete" onClick={this.removeTag.bind(this)}>
+        <button className="delete" onClick={this.removeTag.bind(this)}>
           &times;
         </button>
 
