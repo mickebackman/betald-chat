@@ -75,6 +75,7 @@ class App extends Component {
    // Find the text field via the React ref
    const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
    
+   //TODO: Varje mellanslag skall parsa ut flera taggar.
    Tags.insert({tag: text});
 
    ReactDOM.findDOMNode(this.refs.textInput).value = '';
@@ -84,6 +85,7 @@ class App extends Component {
 
 
  render() {
+  //TODO: Set maxlength so that it is working.
    return(
    <div className="container">
      <header>
@@ -96,6 +98,8 @@ class App extends Component {
              type="text"
              ref="textInput"
              placeholder="Sök"
+             maxlength="20"
+             size="20"
            />
          </form>
 

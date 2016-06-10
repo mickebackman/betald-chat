@@ -6,9 +6,9 @@ import { Tags } from '../api/users.js';
 export default class Tag extends Component {
 
   removeTag(){
-    console.log("removeTag");
     Tags.remove(this.props.tag._id);
   }
+  
   render() {
     // Give tasks a different className when they are checked off,
     // so that we can style them nicely in CSS
