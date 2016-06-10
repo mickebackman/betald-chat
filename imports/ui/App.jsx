@@ -15,7 +15,6 @@ class App extends Component {
 
   constructor(props) {
    super(props);
-   console.log("users: "+ this.props.users);
    this.state = {
      items: this.props.users,
      search: false,
@@ -26,21 +25,47 @@ class App extends Component {
   filterList(event){
     this.setState({search : true});
     event.preventDefault();
-    const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
-     console.log(text);
-     let updatedList = this.props.users;
-     updatedList = updatedList.filter(function(item){
-       return item.expertArea.toLowerCase().search(
-         text.toLowerCase()) !== -1;
-     });
+    this.trimList();
 
-     this.setState({items: updatedList});
    }
 
    renderTags(){
      return this.props.tags.map((tag) => (
-       <Tag key={tag._id} tag={tag} />
+       <Tag key={tag._id} tag={tag} trim={this.trimList.bind(this)} />
      ));
+
+   }
+
+   trimList(){
+     console.log(this.props.tags);
+     const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+     let updatedList = this.props.users;
+     updatedList = updatedList.filter(function(item){
+        return item.expertArea.toLowerCase().search(
+          text.toLowerCase()) !== -1;
+      });
+
+      let index1 = 0;
+      let index2 = 0;
+      let missMatch = false;
+      while(index1 < updatedList.length && this.props.tags.length > 0){
+        while(index2 < this.props.tags.length){
+        if(updatedList[index1].expertArea.toLowerCase().search(this.props.tags[index2].tag)===-1){
+          missMatch = true;
+        }
+        index2++;
+       }
+       if(missMatch){
+        updatedList.splice(index1, 1);
+        match = false;
+      }else{
+         index1++;
+      }
+       index2 = 0;
+
+      }
+
+      this.setState({items: updatedList});
 
    }
 
@@ -48,9 +73,9 @@ class App extends Component {
  renderUsers() {
   //  console.log("users:" + this.props.items);
   let filteredUsers;
-  if(!this.state.search){
-    filteredUsers = this.props.users;
-  }else{
+   if(!this.state.search){
+     filteredUsers = this.props.users;
+   }else{
     filteredUsers = this.state.items;
  }
 
@@ -73,13 +98,16 @@ class App extends Component {
    this.setState({search: true});
    event.preventDefault();
    // Find the text field via the React ref
-   const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
-   
+   const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim().toLowerCase();
+
    //TODO: Varje mellanslag skall parsa ut flera taggar.
+   if(text.length !== 0){
    Tags.insert({tag: text});
+ }
+ this.trimList();
 
    ReactDOM.findDOMNode(this.refs.textInput).value = '';
-   
+
 
  }
 

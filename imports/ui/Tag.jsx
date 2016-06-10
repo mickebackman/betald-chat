@@ -6,9 +6,11 @@ import { Tags } from '../api/users.js';
 export default class Tag extends Component {
 
   removeTag(){
-    Tags.remove(this.props.tag._id);
+    if(Tags.remove(this.props.tag._id)){
+    this.props.trim();
+    }
   }
-  
+
   render() {
     // Give tasks a different className when they are checked off,
     // so that we can style them nicely in CSS
@@ -29,4 +31,5 @@ export default class Tag extends Component {
 
 Tag.PropTypes = {
 tag: PropTypes.object.isRequired,
+trim: React.PropTypes.func,
 };
