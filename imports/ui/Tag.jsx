@@ -1,10 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-
+import { Tags } from '../api/users.js';
 
 
 // Task component - represents a single todo item
 export default class Tag extends Component {
 
+  removeTag(){
+    console.log("removeTag");
+    Tags.remove(this.props.tag._id);
+  }
   render() {
     // Give tasks a different className when they are checked off,
     // so that we can style them nicely in CSS
@@ -12,8 +16,8 @@ export default class Tag extends Component {
 
     return (
       <li>
-        {this.props.tag}
-        <button classname="delete" onClick={this.props.removeTag}>
+        {this.props.tag.tag}
+        <button classname="delete" onClick={this.removeTag.bind(this)}>
           &times;
         </button>
 
@@ -23,9 +27,6 @@ export default class Tag extends Component {
   }
 }
 
-Tag.propTypes = {
-  // This component gets the task to display through a React prop.
-  // We can use propTypes to indicate it is required
-  tag: PropTypes.string.isRequired,
-  removeTag: React.PropTypes.func,
+Tag.PropTypes = {
+tag: PropTypes.object.isRequired,
 };

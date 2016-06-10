@@ -5,6 +5,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import AccountsUIWrapper from './AccountsUIWrapper.jsx';
 
 import { Experts } from '../api/users.js';
+import { Tags } from '../api/users.js';
 
 import User from './User.jsx';
 import Tag from './Tag.jsx'
@@ -17,19 +18,12 @@ class App extends Component {
    console.log("users: "+ this.props.users);
    this.state = {
      items: this.props.users,
-     tags: [],
      search: false,
    };
 
  }
 
- componentWillMount(){
-   this.setState({items: this.props.users});
-   console.log("users111: "+ this.props.users);
- }
-
   filterList(event){
-    console.log("I filterlist");
     this.setState({search : true});
     event.preventDefault();
     const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
@@ -39,12 +33,12 @@ class App extends Component {
        return item.expertArea.toLowerCase().search(
          text.toLowerCase()) !== -1;
      });
-     console.log("Ifilter "+updatedList);
+
      this.setState({items: updatedList});
    }
 
    renderTags(){
-     return this.state.tags.map((tag) => (
+     return this.props.tags.map((tag) => (
        <Tag key={tag._id} tag={tag} />
      ));
 
@@ -80,22 +74,12 @@ class App extends Component {
    event.preventDefault();
    // Find the text field via the React ref
    const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+   
+   Tags.insert({tag: text});
+
    ReactDOM.findDOMNode(this.refs.textInput).value = '';
-   let updatedTags = this.state.tags;
-   updatedTags.push(text);
-   console.log("submit: "+ updatedTags);
-  // console.log("hallå"+updatedTags);
-   this.setState({tags : updatedTags})
+   
 
- }
-
- removeTag(){
-   console.log("i remove");
-   const text = this.props.tag;
-   console.log(text);
-   //const text = ReactDOM.findDOMNode().innerText;
-   //const index = this.state.tags.indexOf
-   //const updatedTags = this.state.tags.
  }
 
 
@@ -132,11 +116,13 @@ class App extends Component {
  App.propTypes = {
    currentUser: PropTypes.object,
    users: PropTypes.array,
+   tags: PropTypes.array,
  };
 
  export default createContainer(() => {
    return {
      currentUser: Meteor.user(),
      users: Experts.find({}).fetch(),
+     tags: Tags.find({}).fetch(),
    };
  }, App);
