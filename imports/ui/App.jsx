@@ -81,16 +81,21 @@ class App extends Component {
    // Find the text field via the React ref
    const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
    ReactDOM.findDOMNode(this.refs.textInput).value = '';
-   const updatedTags = this.state.tags.push(text);
-   console.log("hallå"+updateTags);
-   this.setState({tags : updateTags})
+   let updatedTags = this.state.tags;
+   updatedTags.push(text);
+   console.log("submit: "+ updatedTags);
+  // console.log("hallå"+updatedTags);
+   this.setState({tags : updatedTags})
 
  }
 
- removeTag(event){
-   const text = ReactDOM.findDOMNode(this.refs.textInput).value;
-   const index = this.state.tags.indexOf
-   const updatedTags = this.state.tags.
+ removeTag(){
+   console.log("i remove");
+   const text = this.props.tag;
+   console.log(text);
+   //const text = ReactDOM.findDOMNode().innerText;
+   //const index = this.state.tags.indexOf
+   //const updatedTags = this.state.tags.
  }
 
 

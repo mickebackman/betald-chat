@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import {removeTag} from './App';
+
 
 
 // Task component - represents a single todo item
 export default class Tag extends Component {
-
 
   render() {
     // Give tasks a different className when they are checked off,
@@ -12,8 +11,12 @@ export default class Tag extends Component {
 //    const taskClassName = this.props.task.checked ? 'checked' : '';
 
     return (
-      <li onclick={this.removeTag.bind(this)}>
+      <li>
         {this.props.tag}
+        <button classname="delete" onClick={this.props.removeTag}>
+          &times;
+        </button>
+
       </li>
 
     );
@@ -23,5 +26,6 @@ export default class Tag extends Component {
 Tag.propTypes = {
   // This component gets the task to display through a React prop.
   // We can use propTypes to indicate it is required
-  tag: PropTypes.object.isRequired,
+  tag: PropTypes.string.isRequired,
+  removeTag: React.PropTypes.func,
 };
