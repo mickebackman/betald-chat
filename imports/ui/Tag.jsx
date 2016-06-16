@@ -6,9 +6,8 @@ import { Tags } from '../api/users.js';
 export default class Tag extends Component {
 
   removeTag(){
-    if(Tags.remove(this.props.tag._id)){
-    this.props.trim();
-    }
+    Tags.remove(this.props.tag._id);
+
   }
 
   render() {
@@ -31,5 +30,4 @@ export default class Tag extends Component {
 
 Tag.PropTypes = {
 tag: PropTypes.object.isRequired,
-trim: React.PropTypes.func,
 };
